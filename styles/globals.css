@@ -20,3 +20,18 @@ a {
   flex-direction: column;
   align-items: center;
 }
+
+h1 {
+  text-align: center;
+}
+
+.arrow-btn {
+  transition: all 0.3s ease-out;
+  border-radius: 1rem;
+  padding: 0.5rem;
+}
+
+.arrow-btn:hover {
+  transform: translate(100, -5px);
+  background-color: lightcyan;
+}
