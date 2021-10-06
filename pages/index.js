@@ -30,6 +30,7 @@ export async function getServerSideProps() {
   const response = await got(atCoderURL);
   const $ = cheerio.load(response.body);
   await $("tr").each((i, el) => {
+    if (i === 0) return;
     const elem = $(el).text();
     console.log(typeof elem);
     console.log(elem);
@@ -39,7 +40,6 @@ export async function getServerSideProps() {
 
     const probURL = `${atCodeBaseURL}${$(el).find("a").attr("href")}`;
     const probId = getIdFromProbNum(probNum);
-    if (isNaN(probId)) return;
     const editorialURL = editorialLinks[probId - 1];
     problems.push({ probURL, prob, editorialURL, probNum, star });
   });
