@@ -31,16 +31,16 @@ export async function getServerSideProps() {
   const $ = cheerio.load(response.body);
   await $("tr").each((i, el) => {
     if (i === 0) return;
-    let elem = $(el).text();
-    console.log(typeof elem);
-    console.log(elem);
-    elem = elem.trim();
-    elem = elem.replaceAll("\t", "");
-    elem = elem.split("\n");
-    let [probNum, prob] = elem;
-    // let [probNum, prob] = elem.trim().replaceAll("\t", "").split("\n");
-    const star = prob.slice(prob.indexOf("★") + 1, -1);
-    prob = prob.slice(0, prob.indexOf("★") - 1);
+    const elem = $(el).text();
+    // console.log(typeof elem);
+    // console.log(elem);
+    // elem = elem.trim();
+    // elem = elem.replace(/\t/g, "");
+    // elem = elem.split("\n");
+    // let [probnum, prob] = elem;
+    let [probNum, prob] = elem.trim().replace(/\t/g, "").split("\n");
+    const star = prob.slice(prob.indexof("★") + 1, -1);
+    prob = prob.slice(0, prob.indexof("★") - 1);
 
     const probURL = `${atCodeBaseURL}${$(el).find("a").attr("href")}`;
     const probId = getIdFromProbNum(probNum);
