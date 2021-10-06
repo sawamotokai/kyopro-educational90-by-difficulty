@@ -32,6 +32,7 @@ export async function getServerSideProps() {
   await $("tr").each((i, el) => {
     const elem = $(el).text();
     console.log(typeof elem);
+    console.log(elem);
     let [probNum, prob] = elem.trim().replaceAll("\t", "").split("\n");
     const star = prob.slice(prob.indexOf("★") + 1, -1);
     prob = prob.slice(0, prob.indexOf("★") - 1);
