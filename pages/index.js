@@ -37,10 +37,10 @@ export async function getServerSideProps() {
     // elem = elem.trim();
     // elem = elem.replace(/\t/g, "");
     // elem = elem.split("\n");
-    // let [probnum, prob] = elem;
+    // let [probNum, prob] = elem;
     let [probNum, prob] = elem.trim().replace(/\t/g, "").split("\n");
-    const star = prob.slice(prob.indexof("★") + 1, -1);
-    prob = prob.slice(0, prob.indexof("★") - 1);
+    const star = prob.slice(prob.indexOf("★") + 1, -1);
+    prob = prob.slice(0, prob.indexOf("★") - 1);
 
     const probURL = `${atCodeBaseURL}${$(el).find("a").attr("href")}`;
     const probId = getIdFromProbNum(probNum);
