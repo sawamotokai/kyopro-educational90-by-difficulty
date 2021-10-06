@@ -65,7 +65,7 @@ function probId2probNum(id) {
   }
   return str;
 }
-
+const colorScheme = "whatsapp";
 export default function Home({ problems }) {
   const [probs, setProbs] = useState(problems);
   const [diff, setDiff] = useState("0");
@@ -92,10 +92,12 @@ export default function Home({ problems }) {
         id = probId2probNum(id);
         if (row.result === "AC") {
           results[id] = "AC";
-        } else if (row.id in results && results[id] != "AC") {
-          results[id] = "AC";
+        } else if (id in results) {
+          if (results[id] === 'AC') return;
+          if (row.result !== "AC") results[id] = "WA";
         } else {
-          results[id] = "WA";
+          if (row.result === 'AC') results[id] = 'AC';
+          else results[id] = "WA";
         }
       });
       setResults(results);
@@ -154,11 +156,12 @@ export default function Home({ problems }) {
                 onChange={handleUsernameChange}
                 size="xs"
                 width="xs"
+                colorScheme={colorScheme}
               />
               <Button onClick={handleLogin}>Login</Button>
             </HStack>
           )}
-          <Table variant="simple" colorScheme="whatsapp">
+          <Table variant="simple" colorScheme={colorScheme}>
             <Thead>
               <Tr>
                 <Th></Th>
