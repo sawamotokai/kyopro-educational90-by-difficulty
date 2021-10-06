@@ -30,7 +30,8 @@ export async function getServerSideProps() {
   const response = await got(atCoderURL);
   const $ = cheerio.load(response.body);
   await $("tr").each((i, el) => {
-    let [probNum, prob] = $(el).text().trim().replaceAll("\t", "").split("\n");
+    let [probNum, prob] =
+      $ && $(el).text().trim().replaceAll("\t", "").split("\n");
     const star = prob.slice(prob.indexOf("★") + 1, -1);
     prob = prob.slice(0, prob.indexOf("★") - 1);
 
