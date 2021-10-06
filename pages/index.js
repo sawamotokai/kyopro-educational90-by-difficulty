@@ -28,7 +28,9 @@ export async function getServerSideProps() {
   const atCodeBaseURL = "https://atcoder.jp";
   const atCoderURL = `${atCodeBaseURL}/contests/typical90/tasks`;
   const response = await got(atCoderURL);
+  console.log(response);
   const $ = cheerio.load(response.body);
+  console.log($);
   await $("tr").each((i, el) => {
     let [probNum, prob] =
       $ && $(el).text().trim().replaceAll("\t", "").split("\n");
@@ -41,10 +43,7 @@ export async function getServerSideProps() {
     const editorialURL = editorialLinks[probId - 1];
     problems.push({ probURL, prob, editorialURL, probNum, star });
   });
-  problems.sort((a, b) => {
-    console.log(a.star < b.star);
-    return a.star - b.star;
-  });
+  problems.sort((a, b) => a.star - b.star);
   return {
     props: { problems },
   };
