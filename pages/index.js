@@ -28,12 +28,10 @@ export async function getServerSideProps() {
   const atCodeBaseURL = "https://atcoder.jp";
   const atCoderURL = `${atCodeBaseURL}/contests/typical90/tasks`;
   const response = await got(atCoderURL);
-  console.log(response);
   const $ = cheerio.load(response.body);
-  console.log($);
   await $("tr").each((i, el) => {
     const elem = $(el).text();
-    console.log(elem);
+    console.log(typeof elem);
     let [probNum, prob] = elem.trim().replaceAll("\t", "").split("\n");
     const star = prob.slice(prob.indexOf("★") + 1, -1);
     prob = prob.slice(0, prob.indexOf("★") - 1);
