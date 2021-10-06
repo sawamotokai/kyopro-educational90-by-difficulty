@@ -64,13 +64,13 @@ export default function Home({ problems }) {
               <Tr key={prob.prob}>
                 <Td isNumeric>{prob.probNum}</Td>
                 <Td>
-                  <a href={prob.probURL} target="_blank">
+                  <a href={prob.probURL} target="_blank" rel="noreferrer">
                     {prob.prob}
                   </a>
                 </Td>
                 <Td isNumeric>{prob.star}</Td>
                 <Td>
-                  <a href={prob.editorialURL} target="_blank">
+                  <a href={prob.editorialURL} target="_blank" rel="noreferrer">
                     解説
                   </a>
                 </Td>
