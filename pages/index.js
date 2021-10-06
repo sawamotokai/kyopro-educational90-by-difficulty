@@ -31,10 +31,14 @@ export async function getServerSideProps() {
   const $ = cheerio.load(response.body);
   await $("tr").each((i, el) => {
     if (i === 0) return;
-    const elem = $(el).text();
+    let elem = $(el).text();
     console.log(typeof elem);
     console.log(elem);
-    let [probNum, prob] = elem.trim().replaceAll("\t", "").split("\n");
+    elem = elem.trim();
+    elem = elem.replaceAll("\t", "");
+    elem = elem.split("\n");
+    let [probNum, prob] = elem;
+    // let [probNum, prob] = elem.trim().replaceAll("\t", "").split("\n");
     const star = prob.slice(prob.indexOf("★") + 1, -1);
     prob = prob.slice(0, prob.indexOf("★") - 1);
 
