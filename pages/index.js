@@ -3,7 +3,17 @@ import Image from "next/image";
 import cheerio from "cheerio";
 import got from "got";
 import editorialLinks from "../src/editorial-links";
-import { Table, Thead, Tbody, Tfoot, Tr, Th, Td } from "@chakra-ui/react";
+import {
+  Select,
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+} from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 
 const getIdFromProbNum = (probNum) => {
   let ret = 0;
@@ -40,6 +50,17 @@ export async function getServerSideProps() {
 }
 
 export default function Home({ problems }) {
+  const [probs, setProbs] = useState(problems);
+  const [diff, setDiff] = useState(0);
+
+  function handleDifChange(e) {
+    console.log(e);
+  }
+
+  useEffect(() => {
+    setProbs(problems.filter((prob) => prob.star === `${diff}`));
+  });
+
   return (
     <div>
       <Head>
@@ -50,12 +71,22 @@ export default function Home({ problems }) {
 
       <main className="container">
         <h1>競プロ典型９０問難易度別まとめ</h1>
-        <Table variant="simple" colorScheme="teal">
+        <Table variant="simple" colorScheme="purple">
           <Thead>
             <Tr>
               <Th></Th>
               <Th>問題名</Th>
-              <Th isNumeric>難易度★</Th>
+              <Th isNumeric>
+                <Select placeholder="難易度★" onChange={handleDifChange}>
+                  <option value="2">★2</option>
+                  <option value="3">★3</option>
+                  <option value="4">★4</option>
+                  <option value="5">★5</option>
+                  <option value="6">★6</option>
+                  <option value="7">★7</option>
+                  <option value="0">all</option>
+                </Select>
+              </Th>
               <Th isNumeric></Th>
             </Tr>
           </Thead>
