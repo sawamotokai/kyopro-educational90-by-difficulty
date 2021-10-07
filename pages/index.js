@@ -18,6 +18,7 @@ import {
   Input,
   Button,
   Heading,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
@@ -65,7 +66,6 @@ function probId2probNum(id) {
   }
   return str;
 }
-const colorScheme = "whatsapp";
 export default function Home({ problems }) {
   const [probs, setProbs] = useState(problems);
   const [diff, setDiff] = useState("0");
@@ -93,10 +93,10 @@ export default function Home({ problems }) {
         if (row.result === "AC") {
           results[id] = "AC";
         } else if (id in results) {
-          if (results[id] === 'AC') return;
+          if (results[id] === "AC") return;
           if (row.result !== "AC") results[id] = "WA";
         } else {
-          if (row.result === 'AC') results[id] = 'AC';
+          if (row.result === "AC") results[id] = "AC";
           else results[id] = "WA";
         }
       });
@@ -105,6 +105,12 @@ export default function Home({ problems }) {
       setResults({});
     }
   }, [loggedIn]);
+
+  useEffect(() => {
+    diff === "0"
+      ? setProbs(problems)
+      : setProbs(problems.filter((prob) => prob.star === `${diff}`));
+  }, [diff]);
 
   function handleDifChange(e) {
     setDiff(e.target.value);
@@ -125,11 +131,9 @@ export default function Home({ problems }) {
     setLoggedIn(false);
   }
 
-  useEffect(() => {
-    diff === "0"
-      ? setProbs(problems)
-      : setProbs(problems.filter((prob) => prob.star === `${diff}`));
-  }, [diff]);
+  const colorScheme = "whatsapp";
+  const headingSize = useBreakpointValue({ base: "md", sm: "xl" });
+  const tableSize = useBreakpointValue({ base: "sm", sm: "md" });
 
   return (
     <VStack p={10}>
@@ -140,8 +144,10 @@ export default function Home({ problems }) {
       </Head>
 
       <main>
-        <VStack spacing={10}>
-          <Heading> 競プロ典型９０問 難易度別まとめ </Heading>
+        <VStack spacing={10} alignItems="center">
+          <Heading w="full" textAlign="center" size={headingSize}>
+            競プロ典型９０問 難易度別まとめ
+          </Heading>
           {loggedIn ? (
             <Button onClick={handleLogout}>Logout</Button>
           ) : (
@@ -149,28 +155,29 @@ export default function Home({ problems }) {
               spacing={10}
               alignItems="flex-end"
               justifyContent="space-around"
+              w="full"
             >
               <Input
                 variant="flushed"
                 placeholder="AtCoder username"
                 onChange={handleUsernameChange}
                 size="xs"
-                width="xs"
+                width="4xs"
                 colorScheme={colorScheme}
               />
               <Button onClick={handleLogin}>Login</Button>
             </HStack>
           )}
-          <Table variant="simple" colorScheme={colorScheme}>
+          <Table variant="simple" colorScheme={colorScheme} size={tableSize}>
             <Thead>
               <Tr>
                 <Th></Th>
                 <Th>問題名</Th>
                 <Th isNumeric>
                   <Select
-                    width="3xs"
                     placeholder="難易度"
                     onChange={handleDifChange}
+                    width={"6rem"}
                   >
                     <option value="2">★2</option>
                     <option value="3">★3</option>
@@ -209,6 +216,7 @@ export default function Home({ problems }) {
                       href={prob.editorialURL}
                       target="_blank"
                       rel="noreferrer"
+                      style={{ whiteSpace: "nowrap" }}
                     >
                       解説 &rarr;
                     </a>
